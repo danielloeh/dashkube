@@ -1,0 +1,12 @@
+- Backend:
+
+-- Connect to real k8s api with separate class
+-- convert k8s json to dk json
+-- pass parameter for environment (gce, pp, prod)
+
+- Frontend:
+
+-- Tech: Use browserify (for es6)
+-- Use Icons (foundation.css)
+-- introduce exeptionhandling (error dialog)
+-- get data every 5 sec
