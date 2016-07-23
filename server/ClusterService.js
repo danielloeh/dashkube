@@ -1,8 +1,10 @@
 "use strict"
-const fakemode = true;
-const K8sApiReader = fakemode ? require("./FakeK8sApiReader") : require("./K8sApiReader");
+
 const _ = require("lodash");
 const ConfigReader = require("./ConfigReader");
+
+let fakemode = !!(process.argv.length > 2 && process.argv[2] == 'testMode');
+const K8sApiReader = fakemode ? require("./FakeK8sApiReader") : require("./K8sApiReader");
 
 module.exports = class ClusterDataService {
 
@@ -11,7 +13,7 @@ module.exports = class ClusterDataService {
     this.k8sApiReader = new K8sApiReader();
     this.clusterDataCache = [];
     this.environments = [];
-    this.configReader = new ConfigReader();
+    this.configReader = new ConfigReader(fakemode);
     this.callEvery({timeout: 30000, interval: 10000, self: this, fn: this.sync});
   }
 

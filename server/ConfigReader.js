@@ -4,9 +4,9 @@ const fs = require('fs');
 
 module.exports = class ConfigReader {
 
-  constructor() {
+  constructor(fakemode) {
 
-    if(process.argv.length>2 && process.argv[2] =='testMode'){
+    if(fakemode){
       console.log("Running with example-config.json");
       nconf.file({file: 'example-config.json'});
     }else{
