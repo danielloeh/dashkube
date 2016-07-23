@@ -45,6 +45,13 @@ function dashkube() {
       }
     }
 
+    function _isStartingOrStopping(state) {
+      if (state === "unhealthy") {
+        return "pulsating";
+      }
+      return "";
+    }
+
     function _getBootstrapSuffix(state) {
       if (state === "ok") {
         return "success";
@@ -68,8 +75,10 @@ function dashkube() {
         var podStateClass = _getStateClass(pod.state);
         var suffix = _getBootstrapSuffix(pod.restarts.state);
 
+        var pulsatingClass = _isStartingOrStopping(pod.state);
+
         nodeHtml +=
-          "<div class='dk-pod-box panel'>"
+          "<div class='dk-pod-box panel "+pulsatingClass+"'>"
           + "<div class='dk-pod-header panel-heading " + podStateClass + "'>" + pod.name + "</div>"
           + "<div class='row' >"
             + "<div class='col-xs-4 label label-default'>C: " + pod.container + "</div>"
@@ -104,7 +113,6 @@ function dashkube() {
   }
 
   RestUtils.get("/cluster", storeClusterData);
-
 
 }
 

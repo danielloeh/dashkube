@@ -71,3 +71,13 @@ body {
     -o-transform: rotate(-90deg);
     filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 }
+
+.pulsating {
+    -webkit-animation: fadeInOut 2s infinite;
+}
+
+@-webkit-keyframes fadeInOut {
+    from { opacity: 0.2; }
+    50% { opacity: 1.0; }
+    to { opacity: 0.2; }
+}
