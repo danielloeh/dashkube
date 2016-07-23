@@ -1,5 +1,5 @@
 "use strict"
-const fakemode = false;
+const fakemode = true;
 const K8sApiReader = fakemode ? require("./FakeK8sApiReader") : require("./K8sApiReader");
 const _ = require("lodash");
 const ConfigReader = require("./ConfigReader");
