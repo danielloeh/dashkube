@@ -112,4 +112,4 @@ dashkube();
 
 window.setInterval(function () {
   dashkube();
-}, 5000);
+}, 10000);
