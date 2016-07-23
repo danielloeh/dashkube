@@ -60,10 +60,10 @@ module.exports = class ClusterDataService {
         ppdata = data;
         return this._fillNodes({environment: environments[3]})
       }).then((data) => {
-        return [{name: 'GCE', nodes: gcedata}, {name: 'DEV', nodes: devdata}, {
-          name: 'PP',
+        return [{name: environments[0].name, nodes: gcedata}, {name: environments[1].name, nodes: devdata}, {
+          name: environments[2].name,
           nodes: ppdata
-        }, {name: 'PROD', nodes: data}]
+        }, {name: environments[3].name, nodes: data}]
       })
   };
 
@@ -87,6 +87,7 @@ module.exports = class ClusterDataService {
         _.each(podsJsonFromApi.items, (item) => {
 
           const nodeName = item.spec.nodeName;
+        
           if (_.has(nodeSet, nodeName) && item.metadata.namespace === environment.namespace) {
             nodeSet[nodeName].push(ClusterDataService._createPodJson({item: item}));
           }
@@ -111,6 +112,7 @@ module.exports = class ClusterDataService {
   }
 
   static _createPodJson({item: item}) {
+
     return {
       name: item.metadata.name,
       container: item.spec.containers.length,

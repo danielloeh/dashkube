@@ -2,7 +2,7 @@
 
 -- Connect to real k8s api with separate class
 -- convert k8s json to dk json
--- pass parameter for environment (gce, pp, prod)
+-- pass parameter for environment
 
 - Frontend:
 

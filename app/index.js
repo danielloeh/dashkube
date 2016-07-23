@@ -110,6 +110,6 @@ function dashkube() {
 
 dashkube();
 
-// window.setInterval(function () {
-//   dashkube();
-// }, 5000);
+window.setInterval(function () {
+  dashkube();
+}, 5000);
