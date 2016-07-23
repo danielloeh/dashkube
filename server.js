@@ -17,6 +17,9 @@ class DashkubeServer {
     DashkubeServer.configureEndpoints(app);
     DashkubeServer.serveApp(app);
 
+ 
+    
+
     console.log(`Running DashkubeServer on port ${PORT}`);
     const server = http.createServer(app);
     server.listen(PORT);

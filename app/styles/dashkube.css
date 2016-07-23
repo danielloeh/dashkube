@@ -59,8 +59,13 @@ body {
     color: white;
 }
 
-.dk-state-unknown {
-    background-color: lightyellow;
+.dk-state-starting {
+    background-color: #f5fffa;
+    color: black;
+}
+
+.dk-state-stopping {
+    background-color: mistyrose;
     color: black;
 }
 

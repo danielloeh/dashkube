@@ -136,8 +136,10 @@ module.exports = class ClusterDataService {
   static _calculateState(state) {
     if (state === "Running") {
       return "ok";
-    } else if (state === "Pending" || state === "Terminating") {
-      return "unhealthy";
+    } else if (state === "Pending") {
+      return "pending";
+    } else if (state === "Terminating") {
+      return "terminating";
     } else {
       return "error";
     }

@@ -21,11 +21,13 @@ function dashkube() {
   function renderCluster(data, name) {
 
 
-    function _getStateClass(state) {
+    function _getPhaseClass(state) {
       if (state === "ok") {
         return "dk-state-ok";
-      } else if (state === "unhealthy") {
-        return "dk-state-unhealthy";
+      } else if (state === "pending") {
+        return "dk-state-stopping";
+      } else if (state === "terminating") {
+        return "dk-state-starting";
       } else if (state === "error") {
         return "dk-state-error";
       } else {
@@ -46,7 +48,7 @@ function dashkube() {
     }
 
     function _isStartingOrStopping(state) {
-      if (state === "unhealthy") {
+      if (state === "pending" || state=== "terminating") {
         return "pulsating";
       }
       return "";
@@ -72,7 +74,7 @@ function dashkube() {
 
       function printPod(pod) {
 
-        var podStateClass = _getStateClass(pod.state);
+        var podStateClass = _getPhaseClass(pod.state);
         var suffix = _getBootstrapSuffix(pod.restarts.state);
 
         var pulsatingClass = _isStartingOrStopping(pod.state);
