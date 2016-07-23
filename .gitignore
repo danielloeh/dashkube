@@ -1,0 +1,15 @@
+# Idea
+*.iml
+*.ipr
+*.iws
+.idea
+.shelf
+
+#Docker
+node_modules
+
+# MacOS
+.DS_Store
+
+#config
+*.json

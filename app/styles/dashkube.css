@@ -1,0 +1,73 @@
+body {
+    background: lightgray;
+}
+
+.dk-node-box {
+    border: 1px solid black;
+    margin: 0.2em;
+}
+
+.dk-pod-box {
+    font-size: smaller;
+    border: 1px solid black;
+    padding: 0.2em;
+    margin-left: 0.2em;
+    margin-right: 0.2em;
+    margin-bottom: 0.2em;
+}
+
+.dk-pod-header{
+    padding: 0.2em;
+}
+
+.dk-pod-box .row{
+    margin: 0;
+}
+
+.dk-node-header {
+    font-size: small;
+    padding: 0.3em;
+}
+
+.dk-cluster-box{
+    border: 1px solid black;
+    margin-bottom: 0;
+}
+
+.dk-cluster-header {
+    font-size: medium;
+}
+
+#dk-content .col-xs-3{
+    padding-right: 5px;
+    padding-left: 5px;
+
+}
+/*  pod */
+.dk-state-ok {
+    background-color: #5cb85c;
+    color: white;
+}
+
+.dk-state-unhealthy {
+    background-color: yellow;
+    color: black;
+}
+
+.dk-state-error {
+    background-color: #d9534f;
+    color: white;
+}
+
+.dk-state-unknown {
+    background-color: lightyellow;
+    color: black;
+}
+
+.rotate {
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}
