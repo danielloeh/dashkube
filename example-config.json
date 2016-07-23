@@ -1,0 +1,32 @@
+{
+  "environments": [
+    {
+      "name": "Env1",
+      "apiUrl": "someUrl1",
+      "namespace": "some_namespace",
+      "user": "admin",
+      "password": "pass"
+    },
+    {
+      "name": "Env2",
+      "apiUrl": "someUrl2",
+      "namespace": "some_namespace",
+      "user": "admin",
+      "password": "pass"
+    },
+    {
+      "name": "Env3",
+      "apiUrl": "someUrl3",
+      "namespace": "some_namespace",
+      "user": "admin",
+      "password": "pass"
+    },
+    {
+      "name": "Env4",
+      "apiUrl": "someUrl",
+      "namespace": "some_namespace",
+      "user": "admin",
+      "password": "pass"
+    }
+  ]
+}
