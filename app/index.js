@@ -89,10 +89,10 @@ function dashkube() {
           + "</div>";
       }
 
-      var panelStateClass = _getPanelClass(node.state);
+      var nodeStateClass = _getPanelClass(node.state);
 
       nodeHtml += "<div class='col-xs-3'>";
-      nodeHtml += "<div class='dk-node-box panel " + panelStateClass + "'>";
+      nodeHtml += "<div class='dk-node-box panel " + nodeStateClass + "'>";
       nodeHtml += "<div class='dk-node-header panel-heading'>" + node.name + "</div>";
       var pods = node.pods;
       pods.forEach(printPod);

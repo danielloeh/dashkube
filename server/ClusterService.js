@@ -6,7 +6,7 @@ const ConfigReader = require("./ConfigReader");
 let fakemode = !!(process.argv.length > 2 && process.argv[2] == 'testMode');
 const K8sApiReader = fakemode ? require("./FakeK8sApiReader") : require("./K8sApiReader");
 
-module.exports = class ClusterDataService {
+module.exports = class ClusterService {
 
 
   constructor() {
@@ -80,11 +80,11 @@ module.exports = class ClusterDataService {
           const nodeName = item.spec.nodeName;
 
           if (_.has(nodeSet, nodeName) && item.metadata.namespace === environment.namespace) {
-            nodeSet[nodeName].push(ClusterDataService._createPodJson({item: item}));
+            nodeSet[nodeName].push(ClusterService._createPodJson({item: item}));
           }
         });
 
-        const clusterNodes = _.map(nodesJsonFromApiScope.items, (item) => ClusterDataService._createNodeJson({
+        const clusterNodes = _.map(nodesJsonFromApiScope.items, (item) => ClusterService._createNodeJson({
           item: item,
           nodeSet: nodeSet
         }));
@@ -94,12 +94,29 @@ module.exports = class ClusterDataService {
   }
 
 
-  static _createNodeJson({item: item, nodeSet: nodeSet}) {
+  static _createNodeJson({item: nodeItem, nodeSet: nodeSet}) {
     return {
-      name: item.metadata.name,
-      state: "ok",
-      pods: nodeSet[item.metadata.name]
+      name: nodeItem.metadata.name,
+      state: ClusterService._calculateNodeState({conditions: nodeItem.status.conditions}),
+      pods: nodeSet[nodeItem.metadata.name]
     }
+  }
+
+  static _calculateNodeState({conditions: conditions}) {
+
+    let nodeState = "unhealthy";
+
+    conditions.forEach((condition) => {
+
+      if (condition.type === "Ready") {
+        if (condition.status === "True") {
+          nodeState = "ok";
+        } else if (condition.status === "False") {
+          nodeState = "error";
+        }
+      }
+    });
+    return nodeState;
   }
 
   static _createPodJson({item: item}) {
@@ -107,9 +124,9 @@ module.exports = class ClusterDataService {
     return {
       name: item.metadata.name,
       container: item.spec.containers.length,
-      restarts: ClusterDataService._createRestartJson(item.status.containerStatuses),
-      runningSince: ClusterDataService._calculateUptimeString(item.status.startTime),
-      state: ClusterDataService._calculateState(item.status.phase)
+      restarts: ClusterService._createRestartJson(item.status.containerStatuses),
+      runningSince: ClusterService._calculateUptimeString(item.status.startTime),
+      state: ClusterService._calculateState(item.status.phase)
     };
   }
 

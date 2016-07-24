@@ -17,14 +17,14 @@ module.exports = class FakeData {
       "items": [
         FakeData.createNodeJson({name: node1}),
         FakeData.createNodeJson({name: node2}),
-        FakeData.createNodeJson({name: node3}),
-        FakeData.createNodeJson({name: node4}),
+        FakeData.createNodeJson({name: node3, readyState: "False"}),
+        FakeData.createNodeJson({name: node4, readyState: "Unknown"}),
         FakeData.createNodeJson({name: node5})
       ]
     }
   }
 
-  static createNodeJson({name: name}) {
+  static createNodeJson({name: name, readyState: readyState = "True"}) {
     return {
       "metadata": {
         "name": name,
@@ -48,7 +48,7 @@ module.exports = class FakeData {
         "conditions": [
           {
             "type": "Ready",
-            "status": "True",
+            "status": readyState,
             "lastHeartbeatTime": "",
             "lastTransitionTime": "",
             "reason": "KubeletReady",
