@@ -2,6 +2,11 @@
 
 Simple k8s dashboard
 
+## Prerequisites
+
+* node.js
+* npm
+
 ## Setup
 
 Run ``` npm install ``` in both root (for the server) and /app directory (for the client) for installing dependencies.
