@@ -144,6 +144,6 @@ function dashkube() {
 
 dashkube();
 
-// window.setInterval(function () {
-//   dashkube();
-// }, 10000);
+window.setInterval(function () {
+  dashkube();
+}, 10000);
