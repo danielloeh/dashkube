@@ -3,7 +3,7 @@
 const _ = require("lodash");
 const ConfigReader = require("./ConfigReader");
 
-let fakemode = !!(process.argv.length > 2 && process.argv[2] == 'testMode');
+let fakemode = !!(process.argv.length > 3 && process.argv[3] == 'testMode');
 const K8sApiReader = fakemode ? require("./FakeK8sApiReader") : require("./K8sApiReader");
 
 module.exports = class ClusterService {
