@@ -84,6 +84,7 @@ body {
 
 .pulsating {
     -webkit-animation: fadeInOut 2s infinite;
+    animation: fadeInOut 2s infinite;
 }
 
 @-webkit-keyframes fadeInOut {
