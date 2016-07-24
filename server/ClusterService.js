@@ -14,7 +14,7 @@ module.exports = class ClusterDataService {
     this.clusterDataCache = [];
     this.environments = [];
     this.configReader = new ConfigReader(fakemode);
-    this.callEvery({timeout: 30000, interval: 10000, self: this, fn: this.sync});
+    this.callEvery({timeout: 30000, interval: 10000, self: this, fn: this.syncClusterData});
   }
 
   readClusterData() {
@@ -32,41 +32,30 @@ module.exports = class ClusterDataService {
     })()
   };
 
-  sync(self) {
+  syncClusterData(self) {
     if (self.environments.length === 0) {
       self.environments = self.configReader.getEnvironments();
     }
 
-    console.log("Syncing.");
+    console.log("Syncing Cluster Data from APIs.");
     self.requestClusterData({environments: self.environments}).then((json) => {
       self.clusterDataCache = json;
     }).catch((err) => console.error(err));
   }
 
 
-
   requestClusterData({environments : environments}) {
 
-    let gcedata;
-    let devdata;
-    let ppdata;
+    let json = [];
 
-    return this._fillNodes({environment: environments[0]})
-      .then((data) => {
-        gcedata = data;
-        return this._fillNodes({environment: environments[1]})
-      }).then((data) => {
-        devdata = data;
-        return this._fillNodes({environment: environments[2]})
-      }).then((data) => {
-        ppdata = data;
-        return this._fillNodes({environment: environments[3]})
-      }).then((data) => {
-        return [{name: environments[0].name, nodes: gcedata}, {name: environments[1].name, nodes: devdata}, {
-          name: environments[2].name,
-          nodes: ppdata
-        }, {name: environments[3].name, nodes: data}]
-      })
+    const chainFillNodes = (previous, environment) => {
+      return previous.then((data) => {
+        json.push(data);
+        return this._fillNodes({environment: environment});
+      });
+    };
+
+    return environments.reduce(chainFillNodes, this._fillNodes({environment: environments[0]})).then(()=> json);
   };
 
 
@@ -89,7 +78,7 @@ module.exports = class ClusterDataService {
         _.each(podsJsonFromApi.items, (item) => {
 
           const nodeName = item.spec.nodeName;
-        
+
           if (_.has(nodeSet, nodeName) && item.metadata.namespace === environment.namespace) {
             nodeSet[nodeName].push(ClusterDataService._createPodJson({item: item}));
           }
@@ -100,7 +89,7 @@ module.exports = class ClusterDataService {
           nodeSet: nodeSet
         }));
 
-        return {nodes: clusterNodes};
+        return {name: environment.name, nodes: clusterNodes};
       })
   }
 

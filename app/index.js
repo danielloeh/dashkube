@@ -18,7 +18,7 @@ function dashkube() {
 
   }
 
-  function renderCluster(data, name) {
+  function renderCluster(nodes, name) {
 
 
     function _getPhaseClass(state) {
@@ -65,8 +65,6 @@ function dashkube() {
         return "default";
       }
     }
-
-    var nodes = data.nodes;
 
     var nodeHtml = "";
 

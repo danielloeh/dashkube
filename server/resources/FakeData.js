@@ -2,6 +2,7 @@ const node1 = "node01.fakeservice.addr";
 const node2 = "node02.fakeservice.addr";
 const node3 = "node03.fakeservice.addr";
 const node4 = "node04.fakeservice.addr";
+const node5 = "node05.fakeservice.addr";
 
 module.exports = class FakeData {
 
@@ -14,208 +15,66 @@ module.exports = class FakeData {
         "resourceVersion": "123456"
       },
       "items": [
-        {
-          "metadata": {
-            "name": node1,
-            "selfLink": "/api/v1/nodes/fakeservice.addr",
-            "uid": "367558f4-3473-11e6-977c-bc764e08941b",
-            "resourceVersion": "",
-            "creationTimestamp": "",
-            "labels": {
-              "kubernetes.io/hostname": "fakeservice.addr"
-            }
-          },
-          "spec": {
-            "externalID": "fakeservice.addr"
-          },
-          "status": {
-            "capacity": {
-              "cpu": "4",
-              "memory": "1234",
-              "pods": "40"
-            },
-            "conditions": [
-              {
-                "type": "Ready",
-                "status": "True",
-                "lastHeartbeatTime": "",
-                "lastTransitionTime": "",
-                "reason": "KubeletReady",
-                "message": "kubelet is posting ready status"
-              },
-              {
-                "type": "OutOfDisk",
-                "status": "False",
-                "lastHeartbeatTime": "",
-                "lastTransitionTime": "",
-                "reason": "KubeletHasSufficientDisk",
-                "message": "kubelet has sufficient disk space available"
-              }
-            ],
-            "addresses": [
-              {
-                "type": "LegacyHostIP",
-                "address": "1.2.3.4"
-              },
-              {
-                "type": "InternalIP",
-                "address": "1.2.3.4"
-              }
-            ]
-          }
-        },
-        {
-          "metadata": {
-            "name": node2,
-            "selfLink": "/api/v1/nodes/fakeservice.addr",
-            "uid": "367558f4-3473-11e6-977c-bc764e08941b",
-            "resourceVersion": "",
-            "creationTimestamp": "",
-            "labels": {
-              "kubernetes.io/hostname": "fakeservice.addr"
-            }
-          },
-          "spec": {
-            "externalID": "fakeservice.addr"
-          },
-          "status": {
-            "capacity": {
-              "cpu": "4",
-              "memory": "1234",
-              "pods": "40"
-            },
-            "conditions": [
-              {
-                "type": "Ready",
-                "status": "True",
-                "lastHeartbeatTime": "",
-                "lastTransitionTime": "",
-                "reason": "KubeletReady",
-                "message": "kubelet is posting ready status"
-              },
-              {
-                "type": "OutOfDisk",
-                "status": "False",
-                "lastHeartbeatTime": "",
-                "lastTransitionTime": "",
-                "reason": "KubeletHasSufficientDisk",
-                "message": "kubelet has sufficient disk space available"
-              }
-            ],
-            "addresses": [
-              {
-                "type": "LegacyHostIP",
-                "address": "1.2.3.4"
-              },
-              {
-                "type": "InternalIP",
-                "address": "1.2.3.4"
-              }
-            ]
-          }
-        },
-        {
-          "metadata": {
-            "name": node3,
-            "selfLink": "/api/v1/nodes/fakeservice.addr",
-            "uid": "367558f4-3473-11e6-977c-bc764e08941b",
-            "resourceVersion": "",
-            "creationTimestamp": "",
-            "labels": {
-              "kubernetes.io/hostname": "fakeservice.addr"
-            }
-          },
-          "spec": {
-            "externalID": "fakeservice.addr"
-          },
-          "status": {
-            "capacity": {
-              "cpu": "4",
-              "memory": "1234",
-              "pods": "40"
-            },
-            "conditions": [
-              {
-                "type": "Ready",
-                "status": "True",
-                "lastHeartbeatTime": "",
-                "lastTransitionTime": "",
-                "reason": "KubeletReady",
-                "message": "kubelet is posting ready status"
-              },
-              {
-                "type": "OutOfDisk",
-                "status": "False",
-                "lastHeartbeatTime": "",
-                "lastTransitionTime": "",
-                "reason": "KubeletHasSufficientDisk",
-                "message": "kubelet has sufficient disk space available"
-              }
-            ],
-            "addresses": [
-              {
-                "type": "LegacyHostIP",
-                "address": "1.2.3.4"
-              },
-              {
-                "type": "InternalIP",
-                "address": "1.2.3.4"
-              }
-            ]
-          }
-        },
-        {
-          "metadata": {
-            "name": node4,
-            "selfLink": "/api/v1/nodes/fakeservice.addr",
-            "uid": "367558f4-3473-11e6-977c-bc764e08941b",
-            "resourceVersion": "",
-            "creationTimestamp": "",
-            "labels": {
-              "kubernetes.io/hostname": "fakeservice.addr"
-            }
-          },
-          "spec": {
-            "externalID": "fakeservice.addr"
-          },
-          "status": {
-            "capacity": {
-              "cpu": "4",
-              "memory": "1234",
-              "pods": "40"
-            },
-            "conditions": [
-              {
-                "type": "Ready",
-                "status": "True",
-                "lastHeartbeatTime": "",
-                "lastTransitionTime": "",
-                "reason": "KubeletReady",
-                "message": "kubelet is posting ready status"
-              },
-              {
-                "type": "OutOfDisk",
-                "status": "False",
-                "lastHeartbeatTime": "",
-                "lastTransitionTime": "",
-                "reason": "KubeletHasSufficientDisk",
-                "message": "kubelet has sufficient disk space available"
-              }
-            ],
-            "addresses": [
-              {
-                "type": "LegacyHostIP",
-                "address": "1.2.3.4"
-              },
-              {
-                "type": "InternalIP",
-                "address": "1.2.3.4"
-              }
-            ]
-          }
-        }
+        FakeData.createNodeJson({name: node1}),
+        FakeData.createNodeJson({name: node2}),
+        FakeData.createNodeJson({name: node3}),
+        FakeData.createNodeJson({name: node4}),
+        FakeData.createNodeJson({name: node5})
       ]
     }
+  }
+
+  static createNodeJson({name: name}) {
+    return {
+      "metadata": {
+        "name": name,
+        "selfLink": "/api/v1/nodes/fakeservice.addr",
+        "uid": "367558f4-3473-11e6-977c-bc764e08941b",
+        "resourceVersion": "",
+        "creationTimestamp": "",
+        "labels": {
+          "kubernetes.io/hostname": "fakeservice.addr"
+        }
+      },
+      "spec": {
+        "externalID": "fakeservice.addr"
+      },
+      "status": {
+        "capacity": {
+          "cpu": "4",
+          "memory": "1234",
+          "pods": "40"
+        },
+        "conditions": [
+          {
+            "type": "Ready",
+            "status": "True",
+            "lastHeartbeatTime": "",
+            "lastTransitionTime": "",
+            "reason": "KubeletReady",
+            "message": "kubelet is posting ready status"
+          },
+          {
+            "type": "OutOfDisk",
+            "status": "False",
+            "lastHeartbeatTime": "",
+            "lastTransitionTime": "",
+            "reason": "KubeletHasSufficientDisk",
+            "message": "kubelet has sufficient disk space available"
+          }
+        ],
+        "addresses": [
+          {
+            "type": "LegacyHostIP",
+            "address": "1.2.3.4"
+          },
+          {
+            "type": "InternalIP",
+            "address": "1.2.3.4"
+          }
+        ]
+      }
+    };
   }
 
 
