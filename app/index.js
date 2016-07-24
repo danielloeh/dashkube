@@ -10,7 +10,8 @@ function dashkube() {
 
     clusterData = data;
 
-   $("#dk-content").empty();
+
+    $("#dk-content").empty();
 
     clusterData.forEach(function (cluster) {
       renderCluster(cluster.nodes, cluster.name)
@@ -48,7 +49,7 @@ function dashkube() {
     }
 
     function _isStartingOrStopping(state) {
-      if (state === "pending" || state=== "terminating") {
+      if (state === "pending" || state === "terminating") {
         return "pulsating";
       }
       return "";
@@ -77,14 +78,33 @@ function dashkube() {
 
         var pulsatingClass = _isStartingOrStopping(pod.state);
 
+        var createContainerCountDiv = function (containerCount) {
+          return "<div class=' col-xs-4 label label-default'> " +
+            "<a data-toggle='tooltip' href='#' title='Amount of containers'> C: " + containerCount + "</a>"
+            + "</div>";
+        };
+
+        var createRestartCountDiv = function (restarts) {
+          return "<div class=' col-xs-4 label label-" + suffix + "'> " +
+            "<a data-toggle='tooltip' href='#' title='Amount of restarts'> R: " + restarts + "</a>"
+            + "</div>";
+        };
+
+
+        var createUptimeDiv = function (uptime) {
+          return "<div class=' col-xs-4 label label-default'> " +
+            "<a data-toggle='tooltip' href='#' title='Pod Uptime'> " + uptime + "</a>"
+            + "</div>";
+        };
+
+
         nodeHtml +=
-          "<div class='dk-pod-box panel "+pulsatingClass+"'>"
+          "<div class='dk-pod-box panel " + pulsatingClass + "'>"
           + "<div class='dk-pod-header panel-heading " + podStateClass + "'>" + pod.name + "</div>"
           + "<div class='row' >"
-            + "<div class='col-xs-4 label label-default'>C: " + pod.container + "</div>"
-            + "<div class='col-xs-4 label label-" + suffix + "'> "
-                + "R: " + pod.restarts.count + "</div>"
-            + "<div class='col-xs-4 label label-default '>" + pod.runningSince + "</div>"
+          + createContainerCountDiv(pod.container)
+          + createRestartCountDiv(pod.restarts.count)
+          + createUptimeDiv(pod.runningSince)
           + "</div>"
           + "</div>";
       }
@@ -110,6 +130,10 @@ function dashkube() {
     nodeHtml += "</div>";
 
     $("#dk-content").append(nodeHtml);
+
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
   }
 
   RestUtils.get("/cluster", storeClusterData);
@@ -118,6 +142,6 @@ function dashkube() {
 
 dashkube();
 
-window.setInterval(function () {
-  dashkube();
-}, 10000);
+// window.setInterval(function () {
+//   dashkube();
+// }, 10000);

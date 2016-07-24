@@ -24,6 +24,11 @@ body {
     margin: 0;
 }
 
+.dk-pod-box a{
+    text-decoration: none;
+    color: white;
+}
+
 .dk-node-header {
     font-size: small;
     padding: 0.3em;
