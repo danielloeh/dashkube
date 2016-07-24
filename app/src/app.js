@@ -1,5 +1,10 @@
 "use strict"
 
+const $ = require("jquery");
+global.jQuery = require('jquery');
+require("bootstrap");
+const RestUtils = require("./RestUtils");
+
 function dashkube() {
 
 
@@ -13,10 +18,7 @@ function dashkube() {
 
     $("#dk-content").empty();
 
-    clusterData.forEach(function (cluster) {
-      renderCluster(cluster.nodes, cluster.name)
-    });
-
+    clusterData.forEach((cluster) => renderCluster(cluster.nodes, cluster.name));
   }
 
   function renderCluster(nodes, name) {

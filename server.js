@@ -24,7 +24,7 @@ class DashkubeServer {
 
   static serveApp(app) {
     const rootDir = path.resolve(path.dirname(module.uri || "."));
-    app.use(express.static(rootDir + '/app/'));
+    app.use(express.static(rootDir + '/app/dist'));
   }
 
   static configureEndpoints(app) {

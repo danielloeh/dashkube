@@ -1,4 +1,5 @@
 "use strict"
+const $ = require("jquery");
 
 var RestUtils = function(){
 
@@ -14,3 +15,6 @@ var RestUtils = function(){
     get: get
   };
 }();
+
+
+module.exports = RestUtils
