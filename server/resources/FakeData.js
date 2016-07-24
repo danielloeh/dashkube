@@ -77,7 +77,6 @@ module.exports = class FakeData {
     };
   }
 
-
   static getPodsJson() {
     return {
       "kind": "PodList",
@@ -87,22 +86,22 @@ module.exports = class FakeData {
         "resourceVersion": "16554737"
       },
       "items": [
-        FakeData.createPodJson({name: 'some_service', phase: 'Running', restarts: 1, node: node1}),
-        FakeData.createPodJson({name: 'some_service1', phase: 'Running', restarts: 0, node: node1}),
-        FakeData.createPodJson({name: 'some_service2', phase: 'Error', restarts: 0, node: node1}),
-        FakeData.createPodJson({name: 'some_service3', phase: 'Pending', restarts: 0, node: node1}),
-        FakeData.createPodJson({name: 'some_service4', phase: 'Running', restarts: 0, node: node2}),
-        FakeData.createPodJson({name: 'some_service5', phase: 'Running', restarts: 1, node: node2}),
-        FakeData.createPodJson({name: 'some_service6', phase: 'Running', restarts: 0, node: node2}),
-        FakeData.createPodJson({name: 'some_service7', phase: 'Terminating', restarts: 0, node: node2}),
-        FakeData.createPodJson({name: 'some_service8', phase: 'Running', restarts: 9, node: node2}),
-        FakeData.createPodJson({name: 'some_service9', phase: 'Running', restarts: 0, node: node4}),
-        FakeData.createPodJson({name: 'some_service10', phase: 'Running', restarts: 2, node: node4})
+        FakeData.createPodJson({name: 'some_service', restarts: 1, node: node1}),
+        FakeData.createPodJson({name: 'some_service1', node: node1}),
+        FakeData.createPodJson({name: 'some_service2', phase: 'Error', node: node1}),
+        FakeData.createPodJson({name: 'some_service3', phase: 'Pending', node: node1}),
+        FakeData.createPodJson({name: 'some_service4', node: node2}),
+        FakeData.createPodJson({name: 'some_service5', restarts: 1, node: node2}),
+        FakeData.createPodJson({name: 'some_service6', node: node2}),
+        FakeData.createPodJson({name: 'some_service7', phase: 'Terminating', node: node2}),
+        FakeData.createPodJson({name: 'some_service8', restarts: 9, node: node2}),
+        FakeData.createPodJson({name: 'some_service9', node: node4}),
+        FakeData.createPodJson({name: 'some_service10', restarts: 2, node: node4})
       ]
     }
   };
 
-  static createPodJson({name: name, restarts: restarts, node: node, phase: phase}) {
+  static createPodJson({name: name, restarts: restarts = 0, node: node, phase: phase = 'Running'}) {
     return {
       "metadata": {
         "name": name,
