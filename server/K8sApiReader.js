@@ -45,11 +45,8 @@ module.exports = class K8sApiReader {
 
         response.setEncoding('utf8');
 
-        // temporary data holder
         const body = [];
-        // on every content chunk, push it to the data array
         response.on('data', (chunk) => body.push(chunk));
-        // we are done, resolve promise with those joined chunks
         response.on('end', () => resolve(JSON.parse(body.join(''))));
       });
       request.on('error', (err) => reject(err))

@@ -50,12 +50,19 @@ module.exports = class ClusterService {
 
     const chainFillNodes = (previous, environment) => {
       return previous.then((data) => {
-        json.push(data);
+        if(data){
+          json.push(data);
+        }
         return this._fillNodes({environment: environment});
       });
     };
 
-    return environments.reduce(chainFillNodes, this._fillNodes({environment: environments[0]})).then(()=> json);
+    return environments.reduce(chainFillNodes, new Promise((resolve) => {resolve(undefined)})).then((data)=> {
+      if(data){
+        json.push(data);
+      }
+      return json
+    });
   };
 
 
