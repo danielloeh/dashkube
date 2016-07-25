@@ -16,15 +16,15 @@ body {
     margin-bottom: 0.2em;
 }
 
-.dk-pod-header{
+.dk-pod-header {
     padding: 0.2em;
 }
 
-.dk-pod-box .row{
+.dk-pod-box .row {
     margin: 0;
 }
 
-.dk-pod-box a{
+.dk-pod-box a {
     text-decoration: none;
     color: white;
 }
@@ -34,20 +34,29 @@ body {
     padding: 0.3em;
 }
 
-.dk-cluster-box{
-    border: 1px solid black;
+.dk-cluster-box {
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
     margin-bottom: 0;
 }
 
 .dk-cluster-header {
-    font-size: medium;
+    border: 1px solid black;
+    display: block;
+    font-size: large;
+    margin-bottom: 0.1em;
 }
 
-#dk-content .col-xs-3{
+.dk-env-box{
+    padding-left: 0;
+}
+
+#dk-content .col-xs-3 {
     padding-right: 5px;
     padding-left: 5px;
 
 }
+
 /*  pod */
 .dk-state-ok {
     background-color: #5cb85c;
@@ -74,6 +83,15 @@ body {
     color: black;
 }
 
+.dk-rc {
+    float: left;
+    margin-bottom: 0.1em;
+    white-space: normal;
+    font-weight: normal;
+    width: 100%;
+    overflow: hidden;
+}
+
 .rotate {
     -webkit-transform: rotate(-90deg);
     -moz-transform: rotate(-90deg);
@@ -88,7 +106,13 @@ body {
 }
 
 @-webkit-keyframes fadeInOut {
-    from { opacity: 0.2; }
-    50% { opacity: 1.0; }
-    to { opacity: 0.2; }
+    from {
+        opacity: 0.2;
+    }
+    50% {
+        opacity: 1.0;
+    }
+    to {
+        opacity: 0.2;
+    }
 }

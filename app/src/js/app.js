@@ -28,13 +28,26 @@ function dashkube() {
     rcData.forEach((env) => {renderRCs(env.rcs, env.name)});
   }
 
+  function _getBootstrapSuffix(state) {
+    if (state === "ok") {
+      return "success";
+    } else if (state === "unhealthy") {
+      return "warning";
+    } else if (state === "error") {
+      return "danger";
+    } else {
+      return "default";
+    }
+  }
+
   function renderRCs(rcs, name){
 
     $("#env-"+name).empty();
 
     rcs.forEach((rc) => {
+      const state = _getBootstrapSuffix(rc.state);
 
-      var rcDivs = "<div class='label label-info'>"+rc.name+"</div>";
+      var rcDivs = `<div class='label label-default dk-rc label-${state}'>${rc.name} (${rc.replicas}/${rc.specReplicas})</div>`;
 
       $("#env-"+name).append(rcDivs)
     });
@@ -75,24 +88,10 @@ function dashkube() {
       return "";
     }
 
-    function _getBootstrapSuffix(state) {
-      if (state === "ok") {
-        return "success";
-      } else if (state === "unhealthy") {
-        return "warning";
-      } else if (state === "error") {
-        return "danger";
-      } else {
-        return "default";
-      }
-    }
-
 
     var nodeHtml = "";
 
     function printNode(node) {
-
-
 
       function printPod(pod) {
 
@@ -146,14 +145,12 @@ function dashkube() {
 
 
     var _createClusterDivs= function(name){
-      return "<div class='panel'> "
-        +  "<div class='panel panel-heading '> " + name + "</div>"
+      return "<div class='label label-default dk-cluster-header'> " + name + "</div>"
         +  "<div id='env-"+name+"'> </div>"
-        + "</div>";
     };
 
-    nodeHtml += "<div class='dk-cluster-box row '>"
-    nodeHtml += "<div class='dk-cluster-header  col-xs-1 '>" + _createClusterDivs(name) + "</div>";
+    nodeHtml += "<div class='dk-cluster-box row'>"
+    nodeHtml += "<div class='col-xs-1 dk-env-box'>" + _createClusterDivs(name) + "</div>";
     nodeHtml += "<div class='dk-cluster-box row col-xs-11 '>";
 
     nodes.forEach(printNode);
