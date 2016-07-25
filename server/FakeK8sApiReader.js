@@ -10,9 +10,15 @@ module.exports = class FakeK8sApiReader {
     });
   }
 
-  readPods({environment: environment, callback: callback}) {
+  readPods({environment: environment}) {
     return new Promise((resolve, reject) => {
       resolve(FakeData.getPodsJson());
+    });
+  }
+
+  readReplicationControllers({environment: environment}) {
+    return new Promise((resolve, reject) => {
+      resolve(FakeData.getRCsJson());
     });
   }
 

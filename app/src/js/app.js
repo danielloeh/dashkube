@@ -7,22 +7,28 @@ const RestUtils = require("./RestUtils");
 
 function dashkube() {
 
-
   console.log('Get fresh data.');
-  var clusterData;
+  var clusterData, rcData;
 
   function storeClusterData(data) {
 
     clusterData = data;
-
 
     $("#dk-content").empty();
 
     clusterData.forEach((cluster) => renderCluster(cluster.nodes, cluster.name));
   }
 
-  function renderCluster(nodes, name) {
 
+  function storeRcData(data) {
+
+    console.log('data' +data);
+    rcData = data;
+
+    rcData.forEach((rc) => {console.log(rc)});
+  }
+
+  function renderCluster(nodes, name) {
 
     function _getPhaseClass(state) {
       if (state === "ok") {
@@ -139,6 +145,7 @@ function dashkube() {
   }
 
   RestUtils.get("/cluster", storeClusterData);
+  RestUtils.get("/rcs", storeRcData);
 
 }
 

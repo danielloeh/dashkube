@@ -11,14 +11,21 @@ module.exports = class ClusterService {
 
   constructor() {
     this.k8sApiReader = new K8sApiReader();
-    this.clusterDataCache = [];
+    this.nodeDataCache = [];
+    this.rcDataCache = [];
     this.environments = [];
     this.configReader = new ConfigReader(fakemode);
-    this.callEvery({timeout: 30000, interval: 10000, self: this, fn: this.syncClusterData});
+    this.callEvery({timeout: 30000, interval: 10000, self: this, fn: this.syncNodeData});
+    this.callEvery({timeout: 30000, interval: 20000, self: this, fn: this.syncRcData});
+  }
+  /* used by service */
+  readNodes() {
+    return this.nodeDataCache;
   }
 
-  readClusterData() {
-    return this.clusterDataCache;
+  /* used by service */
+  readReplicationController() {
+    return this.rcDataCache;
   }
 
   callEvery({timeout: timeout = 60000, interval: interval = 10000, self: self, fn: fn}) {
@@ -32,17 +39,58 @@ module.exports = class ClusterService {
     })()
   };
 
-  syncClusterData(self) {
+  syncNodeData(self) {
     if (self.environments.length === 0) {
       self.environments = self.configReader.getEnvironments();
     }
 
-    console.log("Syncing Cluster Data from APIs.");
     self.requestClusterData({environments: self.environments}).then((json) => {
-      self.clusterDataCache = json;
+      self.nodeDataCache = json;
     }).catch((err) => console.error(err));
   }
 
+  syncRcData(self) {
+    if (self.environments.length === 0) {
+      self.environments = self.configReader.getEnvironments();
+    }
+
+    self.requestReplicationControllerData({environments: self.environments}).then((json) => {
+      self.rcDataCache = json;
+    }).catch((err) => console.error(err));
+  }
+
+
+  requestReplicationControllerData({environments: environments}){
+    let json = [];
+
+    const chainFillNodes = (previous, environment) => {
+      return previous.then((data) => {
+        if(data){
+          json.push(data);
+        }
+        return this._fillRcs({environment: environment});
+      });
+    };
+
+    return environments.reduce(chainFillNodes, new Promise((resolve) => {resolve(undefined)})).then((data)=> {
+      if(data){
+        json.push(data);
+      }
+      return json
+    });
+
+  }
+
+  _fillRcs({environment: environment}){
+    return this.k8sApiReader.readReplicationControllers({environment: environment})
+      .then((rcJsonFromApi) => {
+        const rcList = _.map(rcJsonFromApi.items, (item) => ClusterService._createRCJson({
+          item: item
+        }));
+
+        return {name: environment.name, rcs: rcList};
+      })
+  }
 
   requestClusterData({environments : environments}) {
 
@@ -61,7 +109,7 @@ module.exports = class ClusterService {
       if(data){
         json.push(data);
       }
-      return json
+      return json;
     });
   };
 
@@ -100,6 +148,14 @@ module.exports = class ClusterService {
       })
   }
 
+
+  static _createRCJson({item: rcItem}){
+    return {
+      name: rcItem.metadata.name,
+      replicas: rcItem.status.replicas,
+      specReplicas: rcItem.spec.replicas
+    }
+  }
 
   static _createNodeJson({item: nodeItem, nodeSet: nodeSet}) {
     return {

@@ -101,6 +101,24 @@ module.exports = class FakeData {
     }
   };
 
+  static getRCsJson() {
+    return {
+      "kind": "ReplicationControllerList",
+      "apiVersion": "v1",
+      "metadata": {
+        "selfLink": "/api/v1/replicationcontrollers",
+        "resourceVersion": "123456"
+      },
+      "items": [
+        FakeData.createRCJson({name: 'some_service-rc-1'}),
+        FakeData.createRCJson({name: 'some_service-rc-2'}),
+        FakeData.createRCJson({name: 'some_service-rc-3', replicasSpec: 2, replicas: 1}),
+        FakeData.createRCJson({name: 'some_service-rc-4'}),
+        FakeData.createRCJson({name: 'some_service-rc-5', replicasSpec: 2, replicas: 2})
+      ]
+    }
+  };
+
   static createPodJson({name: name, restarts: restarts = 0, node: node, phase: phase = 'Running'}) {
     return {
       "metadata": {
@@ -195,5 +213,68 @@ module.exports = class FakeData {
         ]
       }
     };
+  }
+
+  static createRCJson({name: name, replicasSpec: replicasSpec = 1, replicas: replicas = 1}) {
+    return {
+      "metadata": {
+        "name": name,
+        "namespace": "some_namespace",
+        "selfLink": "/api/v1/namespaces/some_namespace/replicationcontrollers/" + name,
+        "uid": "38b0f37c-5264-11e6-97d5-42010a1eb3e2",
+        "resourceVersion": "2965387",
+        "generation": 1,
+        "creationTimestamp": "2016-07-25T12:35:08Z",
+        "labels": {
+          "name": name
+        }
+      },
+      "spec": {
+        "replicas": replicasSpec,
+        "selector": {
+          "deployment": "666",
+          "name": name
+        },
+        "template": {
+          "metadata": {
+            "creationTimestamp": null,
+            "labels": {
+              "deployment": "666",
+              "name": name
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "sampleservice",
+                "image": "eu.gcr.io/sampleservice",
+                "ports": [
+                  {
+                    "containerPort": 1234,
+                    "protocol": "TCP"
+                  }
+                ],
+                "env": [],
+                "resources": {
+                  "limits": {
+                    "cpu": "250m",
+                    "memory": "128Mi"
+                  }
+                },
+                "imagePullPolicy": "IfNotPresent"
+              }
+            ],
+            "restartPolicy": "Always",
+            "terminationGracePeriodSeconds": 30,
+            "dnsPolicy": "ClusterFirst"
+          }
+        }
+      },
+      "status": {
+        "replicas": replicas,
+        "observedGeneration": 1
+      }
+    }
+
   }
 };

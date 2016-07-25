@@ -32,7 +32,8 @@ class DashkubeServer {
     app.get("/health", (req, res) => res.send("OK"));
 
     const clusterResource = new ClusterResource();
-    app.get("/cluster", (req, res) => clusterResource.get({request: req, response: res}));
+    app.get("/cluster", (req, res) => clusterResource.getNodes({request: req, response: res}));
+    app.get("/rcs", (req, res) => clusterResource.getRcs({request: req, response: res}));
   }
 }
 

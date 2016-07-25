@@ -5,16 +5,16 @@ const ClusterDataService = require("./ClusterService");
 module.exports = class ClusterResource {
 
   constructor() {
-    this.clusterDataService = new ClusterDataService();
+    this.clusterService = new ClusterDataService();
   }
 
-  get({request: _, response: response}) {
+  getNodes({request: _, response: response}) {
+    const json = this.clusterService.readNodes();
+    response.send(json);
+  }
 
-    console.log("Get cluster data.");
-    
-   
-    const json = this.clusterDataService.readClusterData();
-
+  getRcs({request: _, response: response}) {
+    const json = this.clusterService.readReplicationController();
     response.send(json);
   }
 

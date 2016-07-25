@@ -10,16 +10,16 @@ module.exports = class K8sApiReader {
     return this.sendRequest(options);
   }
 
-  readServices({environment: environment, callback: callback}) {
-    const options = this.createOptions({path: '/api/v1/services', environment: environment});
+  readReplicationControllers({environment: environment}) {
+    const options = this.createOptions({path: '/api/v1/replicationcontrollers', environment: environment});
 
     return this.sendRequest(options, callback);
   }
 
-  readPods({environment: environment, callback: callback}) {
+  readPods({environment: environment}) {
     const options = this.createOptions({path: '/api/v1/pods', environment: environment});
 
-    return this.sendRequest(options, callback);
+    return this.sendRequest(options);
   }
 
   createOptions({path: path, environment: environment}) {
