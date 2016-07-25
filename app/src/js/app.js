@@ -25,7 +25,19 @@ function dashkube() {
     console.log('data' +data);
     rcData = data;
 
-    rcData.forEach((rc) => {console.log(rc)});
+    rcData.forEach((env) => {renderRCs(env.rcs, env.name)});
+  }
+
+  function renderRCs(rcs, name){
+
+    $("#env-"+name).empty();
+
+    rcs.forEach((rc) => {
+
+      var rcDivs = "<div class='label label-info'>"+rc.name+"</div>";
+
+      $("#env-"+name).append(rcDivs)
+    });
   }
 
   function renderCluster(nodes, name) {
@@ -75,9 +87,12 @@ function dashkube() {
       }
     }
 
+
     var nodeHtml = "";
 
     function printNode(node) {
+
+
 
       function printPod(pod) {
 
@@ -129,8 +144,16 @@ function dashkube() {
 
     }
 
+
+    var _createClusterDivs= function(name){
+      return "<div class='panel'> "
+        +  "<div class='panel panel-heading '> " + name + "</div>"
+        +  "<div id='env-"+name+"'> </div>"
+        + "</div>";
+    };
+
     nodeHtml += "<div class='dk-cluster-box row '>"
-    nodeHtml += "<div class='dk-cluster-header  col-xs-1 '>" + name + "</div>";
+    nodeHtml += "<div class='dk-cluster-header  col-xs-1 '>" + _createClusterDivs(name) + "</div>";
     nodeHtml += "<div class='dk-cluster-box row col-xs-11 '>";
 
     nodes.forEach(printNode);
@@ -150,7 +173,10 @@ function dashkube() {
 }
 
 dashkube();
-
-window.setInterval(function () {
-  dashkube();
-}, 10000);
+//
+// window.setInterval(function () {
+//   dashkube();
+// }, 1
+// window.setInterval(function () {
+//   dashkube();
+// }, 10000);
