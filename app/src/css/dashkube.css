@@ -2,6 +2,10 @@ body {
     background: lightgray;
 }
 
+a{
+    color: inherit;
+}
+
 .dk-node-box {
     border: 1px solid black;
     margin: 0.2em;

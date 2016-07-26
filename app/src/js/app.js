@@ -7,28 +7,17 @@ const RestUtils = require("./RestUtils");
 
 function dashkube() {
 
-  console.log('Get fresh data.');
-  var clusterData, rcData;
 
-  function storeClusterData(data) {
-
-    clusterData = data;
-
+  const storeClusterData = (clusterData) => {
     $("#dk-content").empty();
-
     clusterData.forEach((cluster) => renderCluster(cluster.nodes, cluster.name));
-  }
+  };
 
-
-  function storeRcData(data) {
-
-    console.log('data' +data);
-    rcData = data;
-
+  const storeRcData = (rcData) => {
     rcData.forEach((env) => {renderRCs(env.rcs, env.name)});
-  }
+  };
 
-  function _getBootstrapSuffix(state) {
+   const _getBootstrapSuffix = (state) => {
     if (state === "ok") {
       return "success";
     } else if (state === "unhealthy") {
@@ -38,7 +27,7 @@ function dashkube() {
     } else {
       return "default";
     }
-  }
+  };
 
   function renderRCs(rcs, name){
 
@@ -135,7 +124,7 @@ function dashkube() {
 
       nodeHtml += "<div class='col-xs-3'>";
       nodeHtml += "<div class='dk-node-box panel " + nodeStateClass + "'>";
-      nodeHtml += "<div class='dk-node-header panel-heading'>" + node.name + "</div>";
+      nodeHtml += `<div class='dk-node-header panel-heading'><a href='http://${node.name}:4194' target='_blank'>${node.name}</a></div>`;
       var pods = node.pods;
       pods.forEach(printPod);
       nodeHtml += "</div>";
