@@ -84,9 +84,10 @@ module.exports = class ClusterService {
   _fillRcs({environment: environment}){
     return this.k8sApiReader.readReplicationControllers({environment: environment})
       .then((rcJsonFromApi) => {
-        const rcList = _.map(rcJsonFromApi.items, (item) => ClusterService._createRCJson({
-          item: item
-        }));
+
+
+        const rcList = _.map(_.filter(rcJsonFromApi.items, (rc) => rc.metadata.namespace === environment.namespace)
+          , (item) => ClusterService._createRCJson({item: item}))
 
         return {name: environment.name, rcs: rcList};
       })

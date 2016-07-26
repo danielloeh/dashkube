@@ -161,7 +161,7 @@ function dashkube() {
 
     $(function () {
       $('[data-toggle="tooltip"]').tooltip()
-    })
+    });
   }
 
   RestUtils.get("/cluster", storeClusterData);
@@ -170,10 +170,6 @@ function dashkube() {
 }
 
 dashkube();
-//
-// window.setInterval(function () {
-//   dashkube();
-// }, 1
-// window.setInterval(function () {
-//   dashkube();
-// }, 10000);
+window.setInterval(function () {
+  dashkube();
+}, 10000);
