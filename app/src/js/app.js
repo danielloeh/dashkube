@@ -11,6 +11,8 @@ function dashkube() {
   const storeClusterData = (clusterData) => {
     $("#dk-content").empty();
     clusterData.forEach((cluster) => renderCluster(cluster.nodes, cluster.name));
+
+    RestUtils.get("/rcs", storeRcData);
   };
 
   const storeRcData = (rcData) => {
@@ -154,7 +156,7 @@ function dashkube() {
   }
 
   RestUtils.get("/cluster", storeClusterData);
-  RestUtils.get("/rcs", storeRcData);
+
 
 }
 
