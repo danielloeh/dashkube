@@ -13,7 +13,7 @@ module.exports = class K8sApiReader {
   readReplicationControllers({environment: environment}) {
     const options = this.createOptions({path: '/api/v1/replicationcontrollers', environment: environment});
 
-    return this.sendRequest(options, callback);
+    return this.sendRequest(options);
   }
 
   readPods({environment: environment}) {
