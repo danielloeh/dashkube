@@ -8,8 +8,7 @@ module.exports = class Cluster {
 
   static printCluster(clusterList) {
     let clusterHtml = "";
-
-
+    
     clusterList.forEach((cluster) => {
       clusterHtml += Cluster.print(cluster.nodes, cluster.name)
     });

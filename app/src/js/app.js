@@ -14,8 +14,8 @@ class Dashcube {
 
   static renderCluster(clusterData) {
 
-    dashcubeContent.empty();
     let clusterHtml = Cluster.printCluster(clusterData);
+    dashcubeContent.empty();
     dashcubeContent.append(clusterHtml);
 
     Utils.enableTooltips();
@@ -26,8 +26,8 @@ class Dashcube {
   static renderRcs(rcData) {
     rcData.forEach((env) => {
       const envElement = $(`#env-${env.name}`);
-      envElement.empty();
       const rcsHtml = Rcs.printRcs(env.rcs);
+      envElement.empty();
       envElement.append(rcsHtml);
     });
   };
