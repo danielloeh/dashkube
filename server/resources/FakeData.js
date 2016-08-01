@@ -18,7 +18,7 @@ module.exports = class FakeData {
         FakeData.createNodeJson({name: node1}),
         FakeData.createNodeJson({name: node2}),
         FakeData.createNodeJson({name: node3, readyState: "False"}),
-        FakeData.createNodeJson({name: node4, readyState: "Unknown"}),
+        FakeData.createNodeJson({name: node4, readyState: "False"}),
         FakeData.createNodeJson({name: node5})
       ]
     }
@@ -88,14 +88,14 @@ module.exports = class FakeData {
       "items": [
         FakeData.createPodJson({name: 'some_service', restarts: 1, node: node1}),
         FakeData.createPodJson({name: 'some_service1', node: node1}),
-        FakeData.createPodJson({name: 'some_service2', phase: 'Error', node: node1}),
+        FakeData.createPodJson({name: 'some_service2', phase: 'Error', node: node1,  stateReady: 'False'}),
         FakeData.createPodJson({name: 'some_service3', phase: 'Pending', node: node1}),
         FakeData.createPodJson({name: 'some_service4', node: node2}),
-        FakeData.createPodJson({name: 'some_service5', restarts: 1, node: node2}),
+        FakeData.createPodJson({name: 'some_service5', restarts: 1, node: node2,  stateReady: 'False'}),
         FakeData.createPodJson({name: 'some_service6', node: node2}),
         FakeData.createPodJson({name: 'some_service7', phase: 'Terminating', node: node2}),
         FakeData.createPodJson({name: 'some_service8', restarts: 9, node: node2}),
-        FakeData.createPodJson({name: 'some_service9', node: node4}),
+        FakeData.createPodJson({name: 'some_service9', node: node4,  stateReady: 'False'}),
         FakeData.createPodJson({name: 'some_service10', restarts: 2, node: node4})
       ]
     }
@@ -119,7 +119,7 @@ module.exports = class FakeData {
     }
   };
 
-  static createPodJson({name: name, restarts: restarts = 0, node: node, phase: phase = 'Running'}) {
+  static createPodJson({name: name, restarts: restarts = 0, node: node, phase: phase = 'Running', stateReady: stateReady = 'True'}) {
     return {
       "metadata": {
         "name": name,
@@ -187,7 +187,7 @@ module.exports = class FakeData {
         "conditions": [
           {
             "type": "Ready",
-            "status": "True",
+            "status": stateReady,
             "lastProbeTime": null,
             "lastTransitionTime": null
           }

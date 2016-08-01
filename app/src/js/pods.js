@@ -17,9 +17,10 @@ module.exports = class Pods {
 
   static print(pod) {
 
-    const createContainerCountDiv = (containerCount) =>
-      `<div class=' col-xs-4 label label-default'> 
-                <a data-toggle='tooltip' href='#' title='Amount of containers'> C: ${containerCount}</a>
+    const createContainerCountDiv = (containerCount, phase) =>
+      `<div class=' col-xs-4 label ${Pods.getPhaseClass(phase)}'> 
+                <a data-toggle='tooltip' href='#' title='${containerCount} container. ${Pods.getPhaseDescription(phase)}'> 
+                C: ${containerCount}</a>
             </div>`;
 
     const createRestartCountDiv = (restarts) =>
@@ -32,10 +33,12 @@ module.exports = class Pods {
                 <a data-toggle='tooltip' href='#' title='Pod Uptime'>${uptime}</a>"
            </div>`;
 
-    return `<div class='dk-pod-box panel  ${Pods._isStartingOrStopping(pod.state)}'>
-                <div class='dk-pod-header panel-heading ${Pods._getPhaseClass(pod.state)}'> ${pod.name }</div>
+    return `<div class='dk-pod-box panel  ${Pods._isStartingOrStopping(pod.phase)}'>
+                <div class='dk-pod-header panel-heading ${Pods.getStateClass(pod.state)}'> 
+                  <a data-toggle='tooltip'  href='#' title='${Pods.getStateDescription(pod.state)}' >${pod.name}</a>
+                </div>
             <div class='row'>`
-      + createContainerCountDiv(pod.container)
+      + createContainerCountDiv(pod.container, pod.phase)
       + createRestartCountDiv(pod.restarts.count)
       + createUptimeDiv(pod.runningSince)
       + `</div>
@@ -50,18 +53,36 @@ module.exports = class Pods {
     return "";
   }
 
-  static  _getPhaseClass(state) {
-    if (state === "ok") {
+  static  getPhaseClass(phase) {
+    if (phase === "ok") {
       return "dk-state-ok";
-    } else if (state === "pending") {
-      return "dk-state-stopping";
-    } else if (state === "terminating") {
+    } else if (phase === "pending") {
       return "dk-state-starting";
-    } else if (state === "error") {
+    } else if (phase === "terminating") {
+      return "dk-state-stopping";
+    } else if (phase === "error") {
       return "dk-state-error";
     } else {
       return "dk-state-unknown";
     }
+  }
+
+  static getStateClass(state){
+    if (state === "True") {
+      return "dk-state-ok";
+    } else if (state === "False") {
+      return "dk-state-error";
+    } else {
+      return "dk-state-unknown";
+    }
+  }
+
+  static  getPhaseDescription(phase) {
+    return `In phase: ${phase}.`;
+  }
+
+  static  getStateDescription(state) {
+    return `Pod ready condition is: ${state}`;
   }
 
 };

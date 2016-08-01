@@ -1,5 +1,6 @@
 "use strict";
 const _ = require("lodash");
+const JsonUtils = require("./JsonUtils");
 
 module.exports = class PodJsonBuilder {
 
@@ -11,7 +12,8 @@ module.exports = class PodJsonBuilder {
       container: item.spec.containers.length,
       restarts: PodJsonBuilder._createRestartJson(item.status.containerStatuses),
       runningSince: PodJsonBuilder._calculateUptimeString(item.status.startTime),
-      state: PodJsonBuilder._calculateState(item.status.phase)
+      phase: PodJsonBuilder.calculatePhase(item.status.phase),
+      state: JsonUtils.checkConditionState(item.status)
     };
   }
 
@@ -26,7 +28,7 @@ module.exports = class PodJsonBuilder {
     }
   }
 
-  static _calculateState(state) {
+  static calculatePhase(state) {
     if (state === "Running") {
       return "ok";
     } else if (state === "Pending") {

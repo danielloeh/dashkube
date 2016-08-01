@@ -19,7 +19,7 @@ module.exports = class Nodes {
 
     let nodeHtml = "";
     nodeHtml += `<div class='col-xs-3'>`;
-    nodeHtml += `<div class='dk-node-box panel ${Nodes._getPanelClass(node.state)}'>`;
+    nodeHtml += `<div class='dk-node-box panel ${Nodes.getStateClass(node.state)}'>`;
     nodeHtml += `<div class='dk-node-header panel-heading'><a href='http://${node.name}:4194' target='_blank'>${node.name}</a></div>`;
     nodeHtml += Pods.printPods(node.pods);
     nodeHtml += "</div>";
@@ -28,15 +28,14 @@ module.exports = class Nodes {
     return nodeHtml;
   }
 
-  static  _getPanelClass(state) {
-    if (state === "ok") {
+  static getStateClass(state){
+    console.log('state' + state);
+    if (state === "True") {
       return "panel-success";
-    } else if (state === "unhealthy") {
-      return "panel-warning";
-    } else if (state === "error") {
+    } else if (state === "False") {
       return "panel-danger";
     } else {
-      return "panel-info";
+      return "panel-warning";
     }
   }
 
